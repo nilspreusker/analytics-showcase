@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-language" content="en">
+    <title></title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<h1>Analytics Showcase</h1>
+
+<h2>Traffic</h2>
+<div id="traffic-per-video">
+    <h3>Traffic Auswertung (pro Video)</h3>
+    <canvas id="traffic-per-video-canvas" width="600px" height="300px"></canvas>
+</div>
+
+<div id="traffic-multiple-videos">
+    <h3>Traffic Auswertung (mehrere Videos)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="traffic-multiple-videos-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<div id="traffic-per-channel">
+    <h3>Traffic Auswertung (pro Channel)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="traffic-per-channel-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<div id="traffic-all-videos">
+    <h3>Traffic Auswertung (alle Videos)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="traffic-all-videos-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<h2>Views</h2>
+<div id="views-per-video">
+    <h3>Views Auswertung (pro Video)</h3>
+    <canvas id="views-per-video-canvas" width="600px" height="300px"></canvas>
+</div>
+
+<div id="views-multiple-videos">
+    <h3>Views Auswertung (mehrere Videos)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="views-multiple-videos-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<div id="views-per-channel">
+    <h3>Views Auswertung (pro Channel)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="views-per-channel-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<div id="views-all-videos">
+    <h3>Views Auswertung (alle Videos)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="views-all-videos-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<h2>Plays</h2>
+<div id="plays-per-video">
+    <h3>Plays Auswertung (pro Video)</h3>
+    <canvas id="plays-per-video-canvas" width="600px" height="300px"></canvas>
+</div>
+
+<div id="plays-multiple-videos">
+    <h3>Plays Auswertung (mehrere Videos)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="plays-multiple-videos-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<div id="plays-per-channel">
+    <h3>Plays Auswertung (pro Channel)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="plays-per-channel-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<div id="plays-all-videos">
+    <h3>Plays Auswertung (alle Videos)</h3>
+    <p>Es liegt noch kein Grafik Entwurf vor</p>
+    <!--<canvas id="plays-all-videos-canvas" width="600px" height="300px"></canvas>-->
+</div>
+
+<script src="js/vendor/Chart.min.js"></script>
+<script>
+    var options = {
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+
+        // Interpolated JS string - can access value
+        scaleLabel: "<%=value%> GB",
+
+        //Boolean - Whether the line is curved between points
+        bezierCurve: false,
+
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 5,
+
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 8,
+
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+        //String - A legend template
+        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"color:<%=datasets[i].strokeColor%>\"><%if(datasets[i].label){%><%=datasets[i].label%><%}%></span></li><%}%></ul>",
+
+        tooltipFillColor: "#ccc",
+
+        tooltipCornerRadius: 0,
+
+        tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %> GB",
+
+        tooltipFontColor: "#000",
+
+        scaleOverride: true,
+
+        // ** Required if scaleOverride is true **
+        // Number - The number of steps in a hard coded scale
+        scaleSteps: 3,
+        // Number - The value jump in the hard coded scale
+        scaleStepWidth: 100,
+        // Number - The scale starting value
+        scaleStartValue: 0
+
+    };
+
+    // -- traffic per video chart
+    var trafficPerVideoEl = document.getElementById("traffic-per-video-canvas");
+    var trafficPerVideoCtx = trafficPerVideoEl.getContext("2d");
+    var trafficPerVideoData = {
+        labels: ["19 Oct", "24 Oct", "28 Oct", "1 Nov", "5 Nov"],
+        datasets: [
+            {
+                label: "Video.mp4",
+                fillColor: "rgb(227, 240, 227)",
+                strokeColor: "rgb(0, 140, 0)",
+                pointColor: "rgb(0, 140, 0)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "rgb(0, 140, 0)",
+                pointHighlightStroke: "rgb(0, 140, 0)",
+                pointDotHighlightStrokeWidth: 10,
+                data: [130, 210, 250, 170, 210]
+            }
+        ]
+    };
+    var trafficPerVideoChart = new Chart(trafficPerVideoCtx).Line(trafficPerVideoData, options);
+//    var legendEl = document.createElement("div");
+//    legendEl.innerHTML = trafficPerVideoChart.generateLegend();
+//    document.getElementById("traffic-per-video").appendChild(legendEl);
+
+    // -- views per video chart
+    var viewsPerVideoEl = document.getElementById("views-per-video-canvas");
+    var viewsPerVideoCtx = viewsPerVideoEl.getContext("2d");
+    var viewsPerVideoData = {
+        labels: ["19 Oct", "24 Oct", "28 Oct", "1 Nov", "5 Nov"],
+        datasets: [
+            {
+                label: "Video.mp4",
+                fillColor: "rgb(227, 240, 227)",
+                strokeColor: "rgb(0, 140, 0)",
+                pointColor: "rgb(0, 140, 0)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "rgb(0, 140, 0)",
+                pointHighlightStroke: "rgb(0, 140, 0)",
+                pointDotHighlightStrokeWidth: 10,
+                data: [130, 210, 250, 170, 210]
+            }
+        ]
+    };
+    options.tooltipTemplate = "<%if (label){%><%=label%>: <%}%><%= value %> Views";
+    options.scaleLabel = "<%=value%>";
+    var viewsPerVideoChart = new Chart(viewsPerVideoCtx).Line(viewsPerVideoData, options);
+
+    // -- plays per video chart
+    var playsPerVideoEl = document.getElementById("plays-per-video-canvas");
+    var playsPerVideoCtx = playsPerVideoEl.getContext("2d");
+    var playsPerVideoData = {
+        labels: ["19 Oct", "24 Oct", "28 Oct", "1 Nov", "5 Nov"],
+        datasets: [
+            {
+                label: "Video.mp4",
+                fillColor: "rgb(227, 240, 227)",
+                strokeColor: "rgb(0, 140, 0)",
+                pointColor: "rgb(0, 140, 0)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "rgb(0, 140, 0)",
+                pointHighlightStroke: "rgb(0, 140, 0)",
+                pointDotHighlightStrokeWidth: 10,
+                data: [130, 210, 250, 170, 210]
+            }
+        ]
+    };
+    options.tooltipTemplate = "<%if (label){%><%=label%>: <%}%><%= value %> Plays";
+    var playsPerVideoChart = new Chart(playsPerVideoCtx).Line(playsPerVideoData, options);
+</script>
+
+
+</body>
+</html>
